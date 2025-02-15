@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<FindBugsFilter>
+    <Match>
+        <Classes>
+            <Class name="otus.components.BaseComponent"/>
+            <Class name="otus.pages.BasePage"/>
+        </Classes>
+        <Bug code="EI2"/>
+    </Match>
+</FindBugsFilter>

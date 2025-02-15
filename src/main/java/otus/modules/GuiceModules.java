@@ -16,6 +16,8 @@ import otus.pages.CatalogCoursesPage;
 import otus.pages.CompanyServicePage;
 import otus.pages.CourseLandingPage;
 import otus.pages.CoursePage;
+import otus.pages.SubscriptionPage;
+import otus.pages.SubscriptionPaymentPage;
 
 public class GuiceModules extends AbstractModule {
 
@@ -76,5 +78,18 @@ public class GuiceModules extends AbstractModule {
     public CourseLandingPage getCourseLandingPage() {
         return new CourseLandingPage(page);
     }
+
+    @Singleton
+    @Provides
+    public SubscriptionPage getSubscriptionPage() {
+        return new SubscriptionPage(page);
+    }
+
+    @Singleton
+    @Provides
+    public SubscriptionPaymentPage getSubscriptionPaymentPage() {
+        return new SubscriptionPaymentPage(page);
+    }
+
 
 }

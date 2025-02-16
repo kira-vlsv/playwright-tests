@@ -7,4 +7,10 @@
         </Classes>
         <Bug code="EI2"/>
     </Match>
+    <Match>
+        <Classes>
+            <Class name="otus.modules.GuiceModules"/>
+        </Classes>
+        <Bug code="EI"/>
+    </Match>
 </FindBugsFilter>

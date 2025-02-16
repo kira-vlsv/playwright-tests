@@ -23,5 +23,6 @@ public class SubscriptionPageTest {
                 .verifySubDetailsExpanded("Standard")
                 .collapseSubDetailsByName("Standard")
                 .clickOnBuySubBtnByName("Standard");
+        subPaymentPage.verifyPaymentPageDisplayed();
     }
 }

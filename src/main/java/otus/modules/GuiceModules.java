@@ -7,6 +7,7 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.Tracing;
 import otus.components.popups.TeacherItemPopup;
 import otus.components.staticcomponent.CategorySideFilter;
 import otus.components.staticcomponent.DurationSideFilter;
@@ -25,11 +26,22 @@ public class GuiceModules extends AbstractModule {
         Playwright playwright = Playwright.create();
         BrowserFactory browserFactory = new BrowserFactory(playwright);
         Browser browser = browserFactory.create();
-        BrowserContext browserContext = browser.newContext();
+        BrowserContext context = browser.newContext();
+
+        context.tracing().start(new Tracing.StartOptions().setScreenshots(true).setSources(true).setSnapshots(true));
+
+        this.browserContext = context;
         this.page = browserContext.newPage();
     }
 
     private Page page;
+    private BrowserContext browserContext;
+
+    @Singleton
+    @Provides
+    public BrowserContext getBrowserContext() {
+        return browserContext;
+    }
 
     @Singleton
     @Provides

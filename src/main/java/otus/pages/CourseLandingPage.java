@@ -4,6 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.LoadState;
 import otus.annotations.Path;
 
 @Path("/custom_courses")
@@ -32,5 +33,6 @@ public class CourseLandingPage extends BasePage<CourseLandingPage> {
     public void clickOnCourseCategoryByIndex(int index) {
         courseCategoriesSection.scrollIntoViewIfNeeded();
         courseCategoriesSection.locator("a[href]").nth(index).click();
+        page.waitForLoadState(LoadState.DOMCONTENTLOADED);
     }
 }

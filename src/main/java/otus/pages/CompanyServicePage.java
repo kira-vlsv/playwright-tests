@@ -1,6 +1,5 @@
 package otus.pages;
 
-import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
 import otus.annotations.Path;
@@ -12,10 +11,9 @@ public class CompanyServicePage extends BasePage<CompanyServicePage> {
         super(page);
     }
 
-    public void clickOnDevelopCourseDetailsButton() {
-        BrowserContext context = page.context();
-        Page newPage = context.waitForPage(() -> page.click("button:has-text('Подробнее')"));
+    public Page clickOnDevelopCourseDetailsButton() {
+        Page newPage = page.context().waitForPage(() -> page.click("button:has-text('Подробнее')"));
         newPage.waitForLoadState(LoadState.DOMCONTENTLOADED);
-        newPage.bringToFront();
+        return newPage;
     }
 }

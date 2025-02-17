@@ -5,7 +5,6 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.Tracing;
 import otus.components.popups.TeacherItemPopup;
@@ -22,20 +21,24 @@ import otus.pages.SubscriptionPaymentPage;
 
 public class GuiceModules extends AbstractModule {
 
+    private BrowserContext browserContext;
+    private PageProvider pageProvider;
+
     public GuiceModules() {
         Playwright playwright = Playwright.create();
         BrowserFactory browserFactory = new BrowserFactory(playwright);
         Browser browser = browserFactory.create();
-        BrowserContext context = browser.newContext();
+        this.browserContext = browser.newContext();
 
-        context.tracing().start(new Tracing.StartOptions().setScreenshots(true).setSources(true).setSnapshots(true));
-
-        this.browserContext = context;
-        this.page = browserContext.newPage();
+        browserContext.tracing().start(new Tracing.StartOptions().setScreenshots(true).setSources(true).setSnapshots(true));
+        this.pageProvider = new PageProvider(browserContext);
     }
 
-    private Page page;
-    private BrowserContext browserContext;
+    @Singleton
+    @Provides
+    public PageProvider getPageProvider() {
+        return pageProvider;
+    }
 
     @Singleton
     @Provides
@@ -46,61 +49,61 @@ public class GuiceModules extends AbstractModule {
     @Singleton
     @Provides
     public CoursePage getCoursePage() {
-        return new CoursePage(page);
+        return new CoursePage(getPageProvider().getCurrentPage());
     }
 
     @Singleton
     @Provides
     public TeacherItemPopup getTeacherItemPopup() {
-        return new TeacherItemPopup(page);
+        return new TeacherItemPopup(getPageProvider().getCurrentPage());
     }
 
     @Singleton
     @Provides
     public CatalogCoursesPage getCatalogCoursesPage() {
-        return new CatalogCoursesPage(page);
+        return new CatalogCoursesPage(getPageProvider().getCurrentPage());
     }
 
     @Singleton
     @Provides
     public CategorySideFilter getCategorySideFilter() {
-        return new CategorySideFilter(page);
+        return new CategorySideFilter(getPageProvider().getCurrentPage());
     }
 
     @Singleton
     @Provides
     public LevelSideFilter getLevelSideFilter() {
-        return new LevelSideFilter(page);
+        return new LevelSideFilter(getPageProvider().getCurrentPage());
     }
 
     @Singleton
     @Provides
     public DurationSideFilter getDurationSideFilter() {
-        return new DurationSideFilter(page);
+        return new DurationSideFilter(getPageProvider().getCurrentPage());
     }
 
     @Singleton
     @Provides
     public CompanyServicePage getCompanyServicePage() {
-        return new CompanyServicePage(page);
+        return new CompanyServicePage(getPageProvider().getCurrentPage());
     }
 
     @Singleton
     @Provides
     public CourseLandingPage getCourseLandingPage() {
-        return new CourseLandingPage(page);
+        return new CourseLandingPage(getPageProvider().getCurrentPage());
     }
 
     @Singleton
     @Provides
     public SubscriptionPage getSubscriptionPage() {
-        return new SubscriptionPage(page);
+        return new SubscriptionPage(getPageProvider().getCurrentPage());
     }
 
     @Singleton
     @Provides
     public SubscriptionPaymentPage getSubscriptionPaymentPage() {
-        return new SubscriptionPaymentPage(page);
+        return new SubscriptionPaymentPage(getPageProvider().getCurrentPage());
     }
 
 
